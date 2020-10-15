@@ -4,6 +4,7 @@
 CMakeFiles/environment.dir/src/environment.cpp.o: ../src/environment.cpp
 CMakeFiles/environment.dir/src/environment.cpp.o: ../src/processPointClouds.cpp
 CMakeFiles/environment.dir/src/environment.cpp.o: ../src/processPointClouds.h
+CMakeFiles/environment.dir/src/environment.cpp.o: ../src/quiz/cluster/cluster.h
 CMakeFiles/environment.dir/src/environment.cpp.o: ../src/quiz/cluster/kdtree.h
 CMakeFiles/environment.dir/src/environment.cpp.o: ../src/render/box.h
 CMakeFiles/environment.dir/src/environment.cpp.o: ../src/render/render.h
@@ -541,6 +542,7 @@ CMakeFiles/environment.dir/src/environment.cpp.o: /usr/include/x86_64-linux-gnu/
 
 CMakeFiles/environment.dir/src/processPointClouds.cpp.o: ../src/processPointClouds.cpp
 CMakeFiles/environment.dir/src/processPointClouds.cpp.o: ../src/processPointClouds.h
+CMakeFiles/environment.dir/src/processPointClouds.cpp.o: ../src/quiz/cluster/cluster.h
 CMakeFiles/environment.dir/src/processPointClouds.cpp.o: ../src/quiz/cluster/kdtree.h
 CMakeFiles/environment.dir/src/processPointClouds.cpp.o: ../src/render/box.h
 CMakeFiles/environment.dir/src/processPointClouds.cpp.o: ../src/render/render.h

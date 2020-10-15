@@ -1,7 +1,7 @@
 /* \author Aaron Brown */
 // Quiz on implementing kd tree
 
-#include "../../render/render.h"
+// #include "../../render/render.h"
 #include <math.h>
 
 // Structure to represent node of kd tree
@@ -26,7 +26,7 @@ struct KdTree
 	{}
 
 
-	void auxInsert(Node **node, std::vector<float> point, int &id, uint depth)
+	void auxInsert(Node **node, std::vector<float> point, int id, uint depth)
 	{
 		if( *node == NULL){
 			*node = new Node(point, id);
@@ -55,8 +55,8 @@ struct KdTree
 		if(node != NULL)
 		{	
 			// Checking if the node within the box
-			if(node->point[0] >= (target[0] - distanceTol) && node->point[0] <= (target[0] + distanceTol) && \
-			   node->point[1] >= (target[1] - distanceTol) && node->point[1] <= (target[1] + distanceTol))
+			if( (node->point[0] >= (target[0] - distanceTol) && node->point[0] <= (target[0] + distanceTol)) && \
+			    (node->point[1] >= (target[1] - distanceTol) && node->point[1] <= (target[1] + distanceTol)) )
 			   {
 				// Checking if the the point within the distance tolerance
 				float distance = sqrt( pow(node->point[0] - target[0],2) + pow(node->point[1] - target[1],2) );
