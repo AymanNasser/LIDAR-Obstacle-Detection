@@ -2,7 +2,6 @@
 
 #include "processPointClouds.h"
 
-
 //constructor:
 template<typename PointT>
 ProcessPointClouds<PointT>::ProcessPointClouds() {}
@@ -67,7 +66,7 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
 
 template<typename PointT>
 std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> \ 
-ProcessPointClouds<PointT>::SeparateClouds(typename pcl::PointCloud<PointT>::Ptr cloud, std::unordered_set<int> inliersResult) 
+ProcessPointClouds<PointT>::SeparateClouds(std::unordered_set<int>& inliersResult,typename pcl::PointCloud<PointT>::Ptr cloud ) 
 {
 
     typename pcl::PointCloud<PointT>::Ptr cloudInliers(new pcl::PointCloud<PointT>());
@@ -75,7 +74,7 @@ ProcessPointClouds<PointT>::SeparateClouds(typename pcl::PointCloud<PointT>::Ptr
 
 	for(int index = 0; index < cloud->points.size(); index++)
 	{
-		pcl::PointXYZ point = cloud->points[index];
+		PointT point = cloud->points[index];
 		if(inliersResult.count(index))
 			cloudInliers->points.push_back(point);
 		else
@@ -88,9 +87,9 @@ ProcessPointClouds<PointT>::SeparateClouds(typename pcl::PointCloud<PointT>::Ptr
 
 
 template<typename PointT>
-std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::SegmentPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceThreshold)
+std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::SegmentPlane(typename pcl::PointCloud<PointT>::Ptr cloud, \
+     int maxIterations, float distanceThreshold)
 {
-
     std::unordered_set<int> inliersResult;
     // Time segmentation process
     auto startTime = std::chrono::steady_clock::now();
@@ -104,9 +103,9 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 		int randIndex_2 = rand() % cloudSize;
 		int randIndex_3 = rand() % cloudSize;
 
-		pcl::PointXYZ point1 = cloud->points[randIndex_1];
-		pcl::PointXYZ point2 = cloud->points[randIndex_2];
-		pcl::PointXYZ point3 = cloud->points[randIndex_3];
+		PointT point1 = cloud->points[randIndex_1];
+		PointT point2 = cloud->points[randIndex_2];
+		PointT point3 = cloud->points[randIndex_3];
 
 		float i = (point2.y -point1.y)*(point3.z - point1.z) - 
 				  (point2.z - point1.z)*(point3.y - point1.y);
@@ -140,15 +139,11 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
 		if(inliers.size() > inliersResult.size())
 			inliersResult = inliers;
 	}
-
-
-
-
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
     std::cout << "plane segmentation took " << elapsedTime.count() << " milliseconds" << std::endl;
 
-    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliersResult);
+    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliersResult,cloud);
     return segResult;
 }
 
@@ -220,6 +215,49 @@ Box ProcessPointClouds<PointT>::BoundingBox(typename pcl::PointCloud<PointT>::Pt
 
     return box;
 }
+
+/* 
+void proximity(std::vector<std::vector<float>> points, KdTree* tree, std::vector<int> &cluster, \
+			   std::vector<bool> &isProcessed, int &pntIndex, float &distanceTol)
+{
+	isProcessed[pntIndex] = true;
+	cluster.push_back(pntIndex);
+
+	std::vector<int> nearbyPntIds = tree->search(points[pntIndex], distanceTol);
+
+	for(int id : nearbyPntIds){
+
+		if(isProcessed[pntIndex])
+			continue;
+		
+		proximity(points, tree ,cluster, isProcessed, id, distanceTol);
+
+	}
+}
+
+std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<float>>& points, KdTree* tree, float distanceTol)
+{
+
+	// TODO: Fill out this function to return list of indices for each cluster
+
+	std::vector<std::vector<int>> clusters;
+	std::vector<bool> isProcessed(points.size(),false);
+	
+	for(int pntIndex = 0; pntIndex < points.size(); pntIndex++){
+
+		if(isProcessed[pntIndex])
+			continue;
+		
+		std::vector<int> cluster;
+		proximity(points, tree ,cluster, isProcessed, pntIndex, distanceTol);
+
+		clusters.push_back(cluster);
+	}
+
+	return clusters;
+}
+
+ */
 
 
 template<typename PointT>

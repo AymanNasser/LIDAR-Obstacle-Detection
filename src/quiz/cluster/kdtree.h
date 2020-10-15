@@ -41,24 +41,6 @@ struct KdTree
 
 		}
 
-		/* 
-		else if(depth %2 == 0){
-
-			if( point[0] < (*node)->point[0])
-				auxInsert(&((*node)->left), point, id, depth);
-			else
-				auxInsert(&((*node)->right), point, id, depth);	
-		}
-		else if(depth%2 != 0){
-
-			if( point[1] < (*node)->point[1])
-				auxInsert(&((*node)->left), point, id, depth);
-			else
-				auxInsert(&((*node)->right), point, id, depth);	
-		} 
-		
-		*/
-
 	}
 
 	void insert(std::vector<float> point, int id)

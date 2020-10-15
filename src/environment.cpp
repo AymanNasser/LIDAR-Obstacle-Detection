@@ -11,7 +11,7 @@
 #include <string>
 
 // Segmentation macros
-#define SEG_MAX_ITER 30
+#define SEG_MAX_ITER 100
 #define SEG_THRESHOLD 0.35
 
 // Clustering macros
@@ -20,28 +20,69 @@
 #define CLUSTER_TOLERANCE 0.53
 
 // Filtering macros
-#define VOXEL_GRID_SIZE 0.4
+#define VOXEL_GRID_SIZE 0.15
 
 void lidarObstacleDetection(pcl::visualization::PCLVisualizer::Ptr& viewer,
                             ProcessPointClouds<pcl::PointXYZI>* pointCloudProcessor,
                             const pcl::PointCloud<pcl::PointXYZI>::Ptr& inputCloud )
 {
-   // Filtering the cloud
-   pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = \
+
+
+
+    // Basic stream rendering
+    //renderPointCloud(viewer, inputCloud, "Filterd Cloud");
+
+    // Filtering the cloud
+    pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = \
         pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, 
                                     Eigen::Vector4f (-10,-5,-2,1),
                                     Eigen::Vector4f (30,8,1,1) ); 
 
     // Segmenting the cloud to obstacles & plane
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = \
+    pointCloudProcessor->SegmentPlane(filterCloud, SEG_MAX_ITER, SEG_THRESHOLD);
+
+    // Clustering obstacles object
+    /* KdTree* tree = new KdTree;
+    for(int ite = 0; ite < segmentCloud.first->points.size(); i++)
+        tree->insert(segmentCloud.first->points[ite]);
+    
+    std::vector<std::vector<int>> clusters = euclideanCluster(segmentCloud.first->points, tree, CLUSTER_TOLERANCE);
+     */
+
+
+    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,0,1));
+    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,0,0));
+
+
+}
+
+void test(pcl::visualization::PCLVisualizer::Ptr& viewer)
+{
+
+    ProcessPointClouds<pcl::PointXYZI>* pointCloudProcessor = new ProcessPointClouds<pcl::PointXYZI>();
+    typename pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloud = \ 
+        pointCloudProcessor->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
+
+
+    // Filtering the cloud
+    /* pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = \
+        pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, 
+                                    Eigen::Vector4f (-10,-5,-2,1),
+                                    Eigen::Vector4f (30,8,1,1) ); 
+ */
+    // Segmenting the cloud to obstacles & plane
+    std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = \
     pointCloudProcessor->SegmentPlane(inputCloud, SEG_MAX_ITER, SEG_THRESHOLD);
 
 
-    renderPointCloud(viewer, segmentCloud, "Basic Stream Render");
+    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,0,1));
+    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,0,0));
 
 
 
 }
+
 
 
 //setAngle: SWITCH CAMERA ANGLE {XY, TopDown, Side, FPS}
@@ -84,10 +125,13 @@ int main (int argc, char** argv)
 
     pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
 
+    // Testing via single point cloud frame
+    test(viewer);
+
     while (!viewer->wasStopped ()){
         
         // Clear viewer
-        viewer->removeAllPointClouds();
+        /* viewer->removeAllPointClouds();
         viewer->removeAllShapes();
 
         // Load pcd and run obstacle detection process
@@ -97,7 +141,7 @@ int main (int argc, char** argv)
         streamIterator++;
         if(streamIterator == stream.end())
             streamIterator = stream.begin();
-
+ */
         viewer->spinOnce ();
     } 
 }

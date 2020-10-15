@@ -19,6 +19,7 @@
 #include <chrono>
 #include "render/box.h"
 #include <unordered_set>
+#include "quiz/cluster/kdtree.h"
 
 template<typename PointT>
 class ProcessPointClouds {
@@ -33,11 +34,15 @@ public:
 
     typename pcl::PointCloud<PointT>::Ptr FilterCloud(typename pcl::PointCloud<PointT>::Ptr cloud, float filterRes, Eigen::Vector4f minPoint, Eigen::Vector4f maxPoint);
 
-    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SeparateClouds(typename pcl::PointCloud<PointT>::Ptr, std::unordered_set<int>);
+    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SeparateClouds(std::unordered_set<int>&, typename pcl::PointCloud<PointT>::Ptr);
 
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SegmentPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceThreshold);
 
     std::vector<typename pcl::PointCloud<PointT>::Ptr> Clustering(typename pcl::PointCloud<PointT>::Ptr cloud, float clusterTolerance, int minSize, int maxSize);
+
+    std::vector<std::vector<int>> euclideanCluster(const std::vector<std::vector<float>>& , KdTree* tree, float distanceTol);
+
+    void proximity(std::vector<std::vector<float>> points, KdTree* tree, std::vector<int> &cluster, std::vector<bool> &isProcessed, int &pntIndex, float &distanceTol);
 
     Box BoundingBox(typename pcl::PointCloud<PointT>::Ptr cluster);
 
