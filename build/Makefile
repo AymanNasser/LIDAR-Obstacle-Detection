@@ -123,6 +123,33 @@ environment/fast:
 	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/build
 .PHONY : environment/fast
 
+src/cluster/cluster.o: src/cluster/cluster.cpp.o
+
+.PHONY : src/cluster/cluster.o
+
+# target to build an object file
+src/cluster/cluster.cpp.o:
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/cluster/cluster.cpp.o
+.PHONY : src/cluster/cluster.cpp.o
+
+src/cluster/cluster.i: src/cluster/cluster.cpp.i
+
+.PHONY : src/cluster/cluster.i
+
+# target to preprocess a source file
+src/cluster/cluster.cpp.i:
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/cluster/cluster.cpp.i
+.PHONY : src/cluster/cluster.cpp.i
+
+src/cluster/cluster.s: src/cluster/cluster.cpp.s
+
+.PHONY : src/cluster/cluster.s
+
+# target to generate assembly for a file
+src/cluster/cluster.cpp.s:
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/cluster/cluster.cpp.s
+.PHONY : src/cluster/cluster.cpp.s
+
 src/environment.o: src/environment.cpp.o
 
 .PHONY : src/environment.o
@@ -177,33 +204,6 @@ src/processPointClouds.cpp.s:
 	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/processPointClouds.cpp.s
 .PHONY : src/processPointClouds.cpp.s
 
-src/quiz/cluster/cluster.o: src/quiz/cluster/cluster.cpp.o
-
-.PHONY : src/quiz/cluster/cluster.o
-
-# target to build an object file
-src/quiz/cluster/cluster.cpp.o:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o
-.PHONY : src/quiz/cluster/cluster.cpp.o
-
-src/quiz/cluster/cluster.i: src/quiz/cluster/cluster.cpp.i
-
-.PHONY : src/quiz/cluster/cluster.i
-
-# target to preprocess a source file
-src/quiz/cluster/cluster.cpp.i:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.i
-.PHONY : src/quiz/cluster/cluster.cpp.i
-
-src/quiz/cluster/cluster.s: src/quiz/cluster/cluster.cpp.s
-
-.PHONY : src/quiz/cluster/cluster.s
-
-# target to generate assembly for a file
-src/quiz/cluster/cluster.cpp.s:
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.s
-.PHONY : src/quiz/cluster/cluster.cpp.s
-
 src/render/render.o: src/render/render.cpp.o
 
 .PHONY : src/render/render.o
@@ -240,15 +240,15 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... environment"
 	@echo "... edit_cache"
+	@echo "... src/cluster/cluster.o"
+	@echo "... src/cluster/cluster.i"
+	@echo "... src/cluster/cluster.s"
 	@echo "... src/environment.o"
 	@echo "... src/environment.i"
 	@echo "... src/environment.s"
 	@echo "... src/processPointClouds.o"
 	@echo "... src/processPointClouds.i"
 	@echo "... src/processPointClouds.s"
-	@echo "... src/quiz/cluster/cluster.o"
-	@echo "... src/quiz/cluster/cluster.i"
-	@echo "... src/quiz/cluster/cluster.s"
 	@echo "... src/render/render.o"
 	@echo "... src/render/render.i"
 	@echo "... src/render/render.s"

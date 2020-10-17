@@ -129,28 +129,28 @@ CMakeFiles/environment.dir/src/processPointClouds.cpp.o.provides: CMakeFiles/env
 CMakeFiles/environment.dir/src/processPointClouds.cpp.o.provides.build: CMakeFiles/environment.dir/src/processPointClouds.cpp.o
 
 
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o: CMakeFiles/environment.dir/flags.make
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o: ../src/quiz/cluster/cluster.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o"
-	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o -c /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.cpp
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.o: CMakeFiles/environment.dir/flags.make
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.o: ../src/cluster/cluster.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/environment.dir/src/cluster/cluster.cpp.o"
+	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/environment.dir/src/cluster/cluster.cpp.o -c /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.cpp
 
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.i: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.i"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.cpp > CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.i
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/environment.dir/src/cluster/cluster.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.cpp > CMakeFiles/environment.dir/src/cluster/cluster.cpp.i
 
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.s: cmake_force
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.s"
-	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.cpp -o CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.s
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/environment.dir/src/cluster/cluster.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.cpp -o CMakeFiles/environment.dir/src/cluster/cluster.cpp.s
 
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.requires:
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.requires:
 
-.PHONY : CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.requires
+.PHONY : CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.requires
 
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.provides: CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.requires
-	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.provides.build
-.PHONY : CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.provides
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.provides: CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.requires
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.provides.build
+.PHONY : CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.provides
 
-CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.provides.build: CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o
+CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.provides.build: CMakeFiles/environment.dir/src/cluster/cluster.cpp.o
 
 
 # Object files for target environment
@@ -158,7 +158,7 @@ environment_OBJECTS = \
 "CMakeFiles/environment.dir/src/environment.cpp.o" \
 "CMakeFiles/environment.dir/src/render/render.cpp.o" \
 "CMakeFiles/environment.dir/src/processPointClouds.cpp.o" \
-"CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o"
+"CMakeFiles/environment.dir/src/cluster/cluster.cpp.o"
 
 # External object files for target environment
 environment_EXTERNAL_OBJECTS =
@@ -166,7 +166,7 @@ environment_EXTERNAL_OBJECTS =
 environment: CMakeFiles/environment.dir/src/environment.cpp.o
 environment: CMakeFiles/environment.dir/src/render/render.cpp.o
 environment: CMakeFiles/environment.dir/src/processPointClouds.cpp.o
-environment: CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o
+environment: CMakeFiles/environment.dir/src/cluster/cluster.cpp.o
 environment: CMakeFiles/environment.dir/build.make
 environment: /usr/lib/x86_64-linux-gnu/libboost_system.so
 environment: /usr/lib/x86_64-linux-gnu/libboost_filesystem.so
@@ -453,7 +453,7 @@ CMakeFiles/environment.dir/build: environment
 CMakeFiles/environment.dir/requires: CMakeFiles/environment.dir/src/environment.cpp.o.requires
 CMakeFiles/environment.dir/requires: CMakeFiles/environment.dir/src/render/render.cpp.o.requires
 CMakeFiles/environment.dir/requires: CMakeFiles/environment.dir/src/processPointClouds.cpp.o.requires
-CMakeFiles/environment.dir/requires: CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o.requires
+CMakeFiles/environment.dir/requires: CMakeFiles/environment.dir/src/cluster/cluster.cpp.o.requires
 
 .PHONY : CMakeFiles/environment.dir/requires
 

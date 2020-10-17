@@ -172,6 +172,8 @@ template<typename PointT>
 std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::Clustering(typename pcl::PointCloud<PointT>::Ptr cloud, float clusterTolerance, int minSize, int maxSize)
 {
 
+    auto startTime = std::chrono::steady_clock::now();
+
     KdTree* tree = new KdTree;
     uint cloudSize = cloud->points.size();
     std::vector<std::vector<float>> points;
@@ -207,6 +209,11 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
         if ((cloudCluster->width >= minSize) && (cloudCluster->width <= maxSize))
             clusters.push_back(cloudCluster);
     }
+
+    auto endTime = std::chrono::steady_clock::now();
+    auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
+    std::cout << "Clustering took " << elapsedTime.count() << " milliseconds" << std::endl;
+
     return clusters;
 }
 

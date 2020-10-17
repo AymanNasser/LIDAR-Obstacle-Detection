@@ -16,12 +16,16 @@
 #include <chrono>
 #include "render/box.h"
 #include <unordered_set>
-#include "quiz/cluster/cluster.h"
+#include "cluster/cluster.h"
 
 template<typename PointT>
 class ProcessPointClouds {
-public:
 
+private:
+
+std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SeparateClouds(std::unordered_set<int>&, typename pcl::PointCloud<PointT>::Ptr);
+
+public:
     //constructor
     ProcessPointClouds();
     //deconstructor
@@ -30,8 +34,6 @@ public:
     void numPoints(typename pcl::PointCloud<PointT>::Ptr cloud);
 
     typename pcl::PointCloud<PointT>::Ptr FilterCloud(typename pcl::PointCloud<PointT>::Ptr cloud, float filterRes, Eigen::Vector4f minPoint, Eigen::Vector4f maxPoint);
-
-    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SeparateClouds(std::unordered_set<int>&, typename pcl::PointCloud<PointT>::Ptr);
 
     std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> SegmentPlane(typename pcl::PointCloud<PointT>::Ptr cloud, int maxIterations, float distanceThreshold);
 

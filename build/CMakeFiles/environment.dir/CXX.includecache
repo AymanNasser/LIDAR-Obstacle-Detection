@@ -6,6 +6,24 @@
 
 #IncludeRegexTransform: 
 
+/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.cpp
+cluster.h
+/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.h
+
+/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.h
+chrono
+-
+string
+-
+kdtree.h
+/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/kdtree.h
+
+/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/kdtree.h
+math.h
+-
+vector
+-
+
 /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/environment.cpp
 sensors/lidar.h
 /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/sensors/lidar.h
@@ -47,26 +65,8 @@ render/box.h
 /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/render/box.h
 unordered_set
 -
-quiz/cluster/cluster.h
-/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.h
-
-/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.cpp
-cluster.h
-/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.h
-
-/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/cluster.h
-chrono
--
-string
--
-kdtree.h
-/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/kdtree.h
-
-/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/quiz/cluster/kdtree.h
-math.h
--
-vector
--
+cluster/cluster.h
+/home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/cluster/cluster.h
 
 /home/an/FOEASU-Linux/LIDAR-Obstacle-Detection/src/render/box.h
 Eigen/Geometry
