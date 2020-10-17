@@ -11,12 +11,12 @@
 
 // Segmentation macros
 #define SEG_MAX_ITER 100
-#define SEG_THRESHOLD 0.2
+#define SEG_THRESHOLD 0.35
 
 // Clustering macros
-#define CLUSTER_MIN_SIZE 10
-#define CLUSTER_MAX_SIZE 5000
-#define CLUSTER_TOLERANCE 0.6
+#define CLUSTER_MIN_SIZE 50
+#define CLUSTER_MAX_SIZE 3000
+#define CLUSTER_TOLERANCE 0.4
 
 // Filtering macros
 #define VOXEL_GRID_SIZE 0.15
@@ -30,7 +30,7 @@
 #define MIXED_2 Color(0,1,1)
 #define MIXED_3 Color(1,0,1)
 
-#define TEST 1
+#define TEST 0
 
 void lidarObstacleDetection(pcl::visualization::PCLVisualizer::Ptr& viewer,
                             ProcessPointClouds<pcl::PointXYZI>* pointCloudProcessor,
@@ -65,7 +65,7 @@ void lidarObstacleDetection(pcl::visualization::PCLVisualizer::Ptr& viewer,
         renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId%3]);
         // Rendering a box 
         Box box = pointCloudProcessor->BoundingBox(cluster);
-        renderBox(viewer, box, clusterId, WHITE, boxOpacity);
+        renderBox(viewer, box, clusterId, colors[clusterId%3], boxOpacity);
         clusterId++;
     }
 
