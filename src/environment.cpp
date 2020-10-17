@@ -28,6 +28,7 @@
 #define GREEN Color(0,1,0)
 #define MIXED_1 Color(1,1,0)
 #define MIXED_2 Color(0,1,1)
+#define MIXED_3 Color(1,0,1)
 
 #define TEST 1
 
@@ -47,27 +48,27 @@ void lidarObstacleDetection(pcl::visualization::PCLVisualizer::Ptr& viewer,
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = \
     pointCloudProcessor->SegmentPlane(filterdCloud, SEG_MAX_ITER, SEG_THRESHOLD);
 
-    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,1,0));
-    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,1,1));
+    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", BLUE);
+    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", RED);
 
     // Clustering obstacles object
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr>  cloudClusters = \ 
     pointCloudProcessor->Clustering(segmentCloud.first,CLUSTER_TOLERANCE, CLUSTER_MIN_SIZE, CLUSTER_MAX_SIZE);
 
 
-    /* std::vector<Color> colors = {Color(0,1,1), Color(0,1,0), Color(0,0,1)};
+    std::vector<Color> colors = {MIXED_1, MIXED_2, MIXED_3};
     uint clusterId = 0;
     float boxOpacity = 0.8;
     for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster: cloudClusters){
 
         // std::cout << "Cluster size: " << processPntCld.numPoints(cluster) << std::endl;
-        renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId]);
+        renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId%3]);
         // Rendering a box 
         Box box = pointCloudProcessor->BoundingBox(cluster);
-        renderBox(viewer, box, clusterId, Color(1,0,1), boxOpacity);
-        clusterId = (clusterId + 1) % 3;
+        renderBox(viewer, box, clusterId, WHITE, boxOpacity);
+        clusterId++;
     }
- */
+
 }
 
 void test(pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -78,28 +79,27 @@ void test(pcl::visualization::PCLVisualizer::Ptr& viewer)
         pointCloudProcessor->loadPcd("../src/sensors/data/pcd/data_1/0000000000.pcd");
 
 
+    Eigen::Vector4f minPoint (-30, -6.5, -3, 1);
+    Eigen::Vector4f maxPoint (30, 6.5, 8, 1);
+
     // Filtering the cloud
     pcl::PointCloud<pcl::PointXYZI>::Ptr filterdCloud = \
-    pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, 
-                                    Eigen::Vector4f (-10,-5,-2,1),
-                                    Eigen::Vector4f (30,8,1,1) ); 
-
-    // renderPointCloud(viewer, filterdCloud, "PntCloud", Color(0,0,1));
+    pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, minPoint, maxPoint);
 
     // Segmenting the cloud to obstacles & plane
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = \
     pointCloudProcessor->SegmentPlane(filterdCloud, SEG_MAX_ITER, SEG_THRESHOLD);
 
+    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", BLUE);
+    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", RED);
 
-    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,0,1));
-    // renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,0,0));
-
+    // Clustering obstacles object
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr>  cloudClusters = \ 
-    pointCloudProcessor->Clustering(segmentCloud.first, CLUSTER_TOLERANCE, CLUSTER_MIN_SIZE, CLUSTER_MAX_SIZE);
+    pointCloudProcessor->Clustering(segmentCloud.first,CLUSTER_TOLERANCE, CLUSTER_MIN_SIZE, CLUSTER_MAX_SIZE);
 
 
-    std::vector<Color> colors = {Color(0,1,1), Color(0,1,0), Color(0,0,1)};
-    uint clusterId = 0;
+    std::vector<Color> colors = {MIXED_1, MIXED_2, MIXED_3};
+    int clusterId = 0;
     float boxOpacity = 1;
     for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster: cloudClusters){
 
@@ -107,12 +107,9 @@ void test(pcl::visualization::PCLVisualizer::Ptr& viewer)
         renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId%3]);
         // Rendering a box 
         Box box = pointCloudProcessor->BoundingBox(cluster);
-        renderBox(viewer, box, clusterId, Color(1,1,1), boxOpacity);
+        renderBox(viewer, box, clusterId, colors[clusterId%3], boxOpacity);
         clusterId++;
     }
-
-
-
 
 }
 

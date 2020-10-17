@@ -12,11 +12,8 @@ void proximity(std::vector<std::vector<float>> &points, KdTree* tree, std::vecto
 
 	for(int id : nearbyPntIds){
 
-		if(isProcessed[pntIndex])
-			continue;
-		
-		proximity(points, tree ,cluster, isProcessed, id, distanceTol);
-
+		if(!isProcessed[id])
+			proximity(points, tree ,cluster, isProcessed, id, distanceTol);
 	}
 }
 
