@@ -11,58 +11,63 @@
 
 // Segmentation macros
 #define SEG_MAX_ITER 100
-#define SEG_THRESHOLD 0.4
+#define SEG_THRESHOLD 0.2
 
 // Clustering macros
 #define CLUSTER_MIN_SIZE 10
-#define CLUSTER_MAX_SIZE 3000
-#define CLUSTER_TOLERANCE 0.5
+#define CLUSTER_MAX_SIZE 5000
+#define CLUSTER_TOLERANCE 0.6
 
 // Filtering macros
-#define VOXEL_GRID_SIZE 0.25
+#define VOXEL_GRID_SIZE 0.15
+
+// Color macros
+#define BLUE Color(0,0,1)
+#define WHITE Color(1,1,1)
+#define RED Color(1,0,0)
+#define GREEN Color(0,1,0)
+#define MIXED_1 Color(1,1,0)
+#define MIXED_2 Color(0,1,1)
+
+#define TEST 1
 
 void lidarObstacleDetection(pcl::visualization::PCLVisualizer::Ptr& viewer,
                             ProcessPointClouds<pcl::PointXYZI>* pointCloudProcessor,
                             const pcl::PointCloud<pcl::PointXYZI>::Ptr& inputCloud )
 {
 
-
-
-    // Basic stream rendering
-    //renderPointCloud(viewer, inputCloud, "Filterd Cloud");
+    Eigen::Vector4f minPoint (-30, -6.5, -3, 1);
+    Eigen::Vector4f maxPoint (30, 6.5, 8, 1);
 
     // Filtering the cloud
-    pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = \
-        pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, 
-                                    Eigen::Vector4f (-10,-5,-2,1),
-                                    Eigen::Vector4f (30,8,10,1) ); 
+    pcl::PointCloud<pcl::PointXYZI>::Ptr filterdCloud = \
+    pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, minPoint, maxPoint);
 
     // Segmenting the cloud to obstacles & plane
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = \
-    pointCloudProcessor->SegmentPlane(filterCloud, SEG_MAX_ITER, SEG_THRESHOLD);
+    pointCloudProcessor->SegmentPlane(filterdCloud, SEG_MAX_ITER, SEG_THRESHOLD);
+
+    renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,1,0));
+    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,1,1));
 
     // Clustering obstacles object
     std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr>  cloudClusters = \ 
     pointCloudProcessor->Clustering(segmentCloud.first,CLUSTER_TOLERANCE, CLUSTER_MIN_SIZE, CLUSTER_MAX_SIZE);
 
 
-    std::vector<Color> colors = {Color(1,1,1), Color(0,1,0), Color(1,1,0)};
-    short colorId = 0;
+    /* std::vector<Color> colors = {Color(0,1,1), Color(0,1,0), Color(0,0,1)};
+    uint clusterId = 0;
+    float boxOpacity = 0.8;
     for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster: cloudClusters){
 
         // std::cout << "Cluster size: " << processPntCld.numPoints(cluster) << std::endl;
-        renderPointCloud(viewer, cluster, "Cluster " + std::to_string(colorId), colors[colorId]);
+        renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId]);
         // Rendering a box 
         Box box = pointCloudProcessor->BoundingBox(cluster);
-        renderBox(viewer,box,colorId);
-        colorId = (colorId + 1) % 3;
+        renderBox(viewer, box, clusterId, Color(1,0,1), boxOpacity);
+        clusterId = (clusterId + 1) % 3;
     }
-
-
-    // renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,1,0));
-    // renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,0,0));
-
-
+ */
 }
 
 void test(pcl::visualization::PCLVisualizer::Ptr& viewer)
@@ -74,18 +79,38 @@ void test(pcl::visualization::PCLVisualizer::Ptr& viewer)
 
 
     // Filtering the cloud
-    /* pcl::PointCloud<pcl::PointXYZI>::Ptr filterCloud = \
-        pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, 
+    pcl::PointCloud<pcl::PointXYZI>::Ptr filterdCloud = \
+    pointCloudProcessor->FilterCloud(inputCloud, VOXEL_GRID_SIZE, 
                                     Eigen::Vector4f (-10,-5,-2,1),
                                     Eigen::Vector4f (30,8,1,1) ); 
- */
+
+    // renderPointCloud(viewer, filterdCloud, "PntCloud", Color(0,0,1));
+
     // Segmenting the cloud to obstacles & plane
     std::pair<pcl::PointCloud<pcl::PointXYZI>::Ptr, pcl::PointCloud<pcl::PointXYZI>::Ptr> segmentCloud = \
-    pointCloudProcessor->SegmentPlane(inputCloud, SEG_MAX_ITER, SEG_THRESHOLD);
+    pointCloudProcessor->SegmentPlane(filterdCloud, SEG_MAX_ITER, SEG_THRESHOLD);
 
 
     renderPointCloud(viewer, segmentCloud.first, "Obstacles Rendering", Color(0,0,1));
-    renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,0,0));
+    // renderPointCloud(viewer, segmentCloud.second, "Plane Rendering", Color(1,0,0));
+
+    std::vector<pcl::PointCloud<pcl::PointXYZI>::Ptr>  cloudClusters = \ 
+    pointCloudProcessor->Clustering(segmentCloud.first, CLUSTER_TOLERANCE, CLUSTER_MIN_SIZE, CLUSTER_MAX_SIZE);
+
+
+    std::vector<Color> colors = {Color(0,1,1), Color(0,1,0), Color(0,0,1)};
+    uint clusterId = 0;
+    float boxOpacity = 1;
+    for(pcl::PointCloud<pcl::PointXYZI>::Ptr cluster: cloudClusters){
+
+        // std::cout << "Cluster size: " << processPntCld.numPoints(cluster) << std::endl;
+        renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId%3]);
+        // Rendering a box 
+        Box box = pointCloudProcessor->BoundingBox(cluster);
+        renderBox(viewer, box, clusterId, Color(1,1,1), boxOpacity);
+        clusterId++;
+    }
+
 
 
 
@@ -133,10 +158,18 @@ int main (int argc, char** argv)
 
     pcl::PointCloud<pcl::PointXYZI>::Ptr inputCloudI;
 
-    // Testing via single point cloud frame
-    // test(viewer);
+    
+    if(TEST)
+    {   
+        // Testing via single point cloud frame
+        test(viewer);
+        while( !viewer->wasStopped() )
+            viewer->spinOnce();    
+    }
 
-    while (!viewer->wasStopped ()){
+    else
+    {
+        while (!viewer->wasStopped ()){
         
         // Clear viewer
         viewer->removeAllPointClouds();
@@ -151,5 +184,9 @@ int main (int argc, char** argv)
             streamIterator = stream.begin();
 
         viewer->spinOnce ();
-    } 
+    }    
+    }
+    
+
+
 }

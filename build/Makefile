@@ -177,6 +177,33 @@ src/processPointClouds.cpp.s:
 	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/processPointClouds.cpp.s
 .PHONY : src/processPointClouds.cpp.s
 
+src/quiz/cluster/cluster.o: src/quiz/cluster/cluster.cpp.o
+
+.PHONY : src/quiz/cluster/cluster.o
+
+# target to build an object file
+src/quiz/cluster/cluster.cpp.o:
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o
+.PHONY : src/quiz/cluster/cluster.cpp.o
+
+src/quiz/cluster/cluster.i: src/quiz/cluster/cluster.cpp.i
+
+.PHONY : src/quiz/cluster/cluster.i
+
+# target to preprocess a source file
+src/quiz/cluster/cluster.cpp.i:
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.i
+.PHONY : src/quiz/cluster/cluster.cpp.i
+
+src/quiz/cluster/cluster.s: src/quiz/cluster/cluster.cpp.s
+
+.PHONY : src/quiz/cluster/cluster.s
+
+# target to generate assembly for a file
+src/quiz/cluster/cluster.cpp.s:
+	$(MAKE) -f CMakeFiles/environment.dir/build.make CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.s
+.PHONY : src/quiz/cluster/cluster.cpp.s
+
 src/render/render.o: src/render/render.cpp.o
 
 .PHONY : src/render/render.o
@@ -219,6 +246,9 @@ help:
 	@echo "... src/processPointClouds.o"
 	@echo "... src/processPointClouds.i"
 	@echo "... src/processPointClouds.s"
+	@echo "... src/quiz/cluster/cluster.o"
+	@echo "... src/quiz/cluster/cluster.i"
+	@echo "... src/quiz/cluster/cluster.s"
 	@echo "... src/render/render.o"
 	@echo "... src/render/render.i"
 	@echo "... src/render/render.s"

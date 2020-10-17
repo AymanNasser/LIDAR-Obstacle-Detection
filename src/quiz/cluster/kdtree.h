@@ -3,6 +3,9 @@
 
 // #include "../../render/render.h"
 #include <math.h>
+#include <vector>
+
+#define DEPTH_MOD 2
 
 // Structure to represent node of kd tree
 struct Node
@@ -34,7 +37,7 @@ struct KdTree
 
 		else{
 			
-			if(point[depth%2] < (*node)->point[depth%2])
+			if(point[depth%DEPTH_MOD] < (*node)->point[depth%DEPTH_MOD])
 				auxInsert(&((*node)->left), point, id, depth+1);	
 			else
 				auxInsert(&((*node)->right), point, id, depth+1);	
@@ -65,9 +68,9 @@ struct KdTree
 			   }
 
 			   	// Whether to split left or right
-			   	if( (target[depth%2] - distanceTol) < node->point[depth%2])
+			   	if( (target[depth%DEPTH_MOD] - distanceTol) < node->point[depth%DEPTH_MOD])
 					auxSearch(node->left, target, depth+1, distanceTol, ids);
-				if( (target[depth%2] + distanceTol) > node->point[depth%2])
+				if( (target[depth%DEPTH_MOD] + distanceTol) > node->point[depth%DEPTH_MOD])
 					auxSearch(node->right, target, depth+1, distanceTol, ids);
 		}
 		

@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/environment.dir/src/environment.cpp.o"
   "CMakeFiles/environment.dir/src/render/render.cpp.o"
   "CMakeFiles/environment.dir/src/processPointClouds.cpp.o"
+  "CMakeFiles/environment.dir/src/quiz/cluster/cluster.cpp.o"
   "environment.pdb"
   "environment"
 )

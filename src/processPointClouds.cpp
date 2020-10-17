@@ -27,39 +27,48 @@ typename pcl::PointCloud<PointT>::Ptr ProcessPointClouds<PointT>::FilterCloud(ty
     auto startTime = std::chrono::steady_clock::now();
 
     // TODO:: Fill in the function to do voxel grid point reduction and region based filtering
-    typename pcl::PointCloud<PointT>::Ptr filterCloud (new pcl::PointCloud<PointT>());
+    typename pcl::PointCloud<PointT>::Ptr downsampledCloud (new pcl::PointCloud<PointT>());
+
     // Filtering our point cloud using voxel grid filter
     pcl::VoxelGrid<PointT> sor;
     sor.setInputCloud (cloud);
     sor.setLeafSize (filterRes,filterRes,filterRes); // Cube dimensions
-    sor.filter (*filterCloud);
+    sor.filter (*downsampledCloud);
 
     // Downsampling cloud with only points that were inside the region specified
-    typename pcl::PointCloud<PointT>::Ptr regionCloud (new pcl::PointCloud<PointT>());
-    std::vector<int> indicesToRemoved;
+    typename pcl::PointCloud<PointT>::Ptr filterdCloud (new pcl::PointCloud<PointT>());
 
-    pcl::CropBox<PointT> region(true); // Extract_removed_indices Set to true to extract indicies to be removed
-    region.setInputCloud(filterCloud);
+    pcl::CropBox<PointT> region(false); 
+    region.setInputCloud(downsampledCloud);
     region.setMin(minPoint);
     region.setMax(maxPoint);
-    region.filter(indicesToRemoved);
+    region.filter(*filterdCloud);
+
+    //define a crop-box of apprx size that represents roof points
+    std::vector<int> roof_indices;
+
+    pcl::CropBox<PointT> roof;
+    region.setInputCloud(filterdCloud);
+    region.setMin(Eigen::Vector4f(-1.5,  -1.7, -1, 1));
+    region.setMax(Eigen::Vector4f(2.6,  1.7, -0.4, 1));
+    region.filter(roof_indices);
 
     // Removing filterd points from output pointcloud
     pcl::PointIndices::Ptr inliers {new pcl::PointIndices};
-    for(int index : indicesToRemoved)
+    for(int index : roof_indices)
         inliers->indices.push_back(index);
 
     pcl::ExtractIndices<PointT> extract;
-    extract.setInputCloud(filterCloud);
+    extract.setInputCloud(filterdCloud);
     extract.setIndices(inliers);
     extract.setNegative(true);
-    extract.filter(*regionCloud);
+    extract.filter(*filterdCloud);
 
     auto endTime = std::chrono::steady_clock::now();
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
     std::cout << "filtering took " << elapsedTime.count() << " milliseconds" << std::endl;
 
-    return regionCloud;
+    return filterdCloud;
 
 }
 
@@ -154,7 +163,7 @@ std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT
     auto elapsedTime = std::chrono::duration_cast<std::chrono::milliseconds>(endTime - startTime);
     std::cout << "plane segmentation took " << elapsedTime.count() << " milliseconds" << std::endl;
 
-    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliersResult,cloud);
+    std::pair<typename pcl::PointCloud<PointT>::Ptr, typename pcl::PointCloud<PointT>::Ptr> segResult = SeparateClouds(inliersResult, cloud);
     return segResult;
 }
 
@@ -214,7 +223,8 @@ std::vector<typename pcl::PointCloud<PointT>::Ptr> ProcessPointClouds<PointT>::C
         cloudCluster->height = 1;
         cloudCluster->is_dense = true;
 
-        clusters.push_back(cloudCluster);
+        if ((cloudCluster->width >= minSize) && (cloudCluster->width <= maxSize))
+            clusters.push_back(cloudCluster);
     }
     return clusters;
 }
