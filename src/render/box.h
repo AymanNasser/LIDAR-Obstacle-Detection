@@ -9,6 +9,7 @@ struct BoxQ
 	float cube_length;
     float cube_width;
     float cube_height;
+
 };
 struct Box
 {
@@ -20,3 +21,5 @@ struct Box
 	float z_max;
 };
 #endif
+
+

@@ -64,7 +64,8 @@ void lidarObstacleDetection(pcl::visualization::PCLVisualizer::Ptr& viewer,
         // std::cout << "Cluster size: " << processPntCld.numPoints(cluster) << std::endl;
         renderPointCloud(viewer, cluster, "Cluster " + std::to_string(clusterId), colors[clusterId%3]);
         // Rendering a box 
-        Box box = pointCloudProcessor->BoundingBox(cluster);
+        // Box box = pointCloudProcessor->BoundingBox(cluster);
+        BoxQ box = pointCloudProcessor->BoundingBoxQ(cluster);
         renderBox(viewer, box, clusterId, colors[clusterId%3], boxOpacity);
         clusterId++;
     }
