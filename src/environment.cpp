@@ -14,7 +14,7 @@
 #define SEG_THRESHOLD 0.35
 
 // Clustering macros
-#define CLUSTER_MIN_SIZE 50
+#define CLUSTER_MIN_SIZE 10
 #define CLUSTER_MAX_SIZE 3000
 #define CLUSTER_TOLERANCE 0.4
 
